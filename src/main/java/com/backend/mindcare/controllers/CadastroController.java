@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 import java.util.UUID;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://mindcare-frontend.vercel.app/")
 @RestController
 @RequestMapping("/mindcare")
 public class CadastroController {
