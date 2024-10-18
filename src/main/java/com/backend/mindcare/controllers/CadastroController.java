@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,13 +21,13 @@ public class CadastroController {
     private CadastroRepository repository;
 
     @GetMapping
-    public ResponseEntity getAllCadastro() {
+    public ResponseEntity<List<Cadastro>> getAllCadastro() {
         var allCadastro = repository.findAll();
         return ResponseEntity.ok(allCadastro);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getCadastroById(@PathVariable UUID id) {
+    public ResponseEntity<Cadastro> getCadastroById(@PathVariable UUID id) {
         Optional<Cadastro> cadastro = repository.findById(id);
         if (cadastro.isPresent()) {
             return ResponseEntity.ok(cadastro.get());
@@ -36,7 +37,7 @@ public class CadastroController {
     }
 
     @PostMapping
-    public ResponseEntity registerCadastro(@RequestBody @Valid RequestCadastro data) {
+    public ResponseEntity<Void> registerCadastro(@RequestBody @Valid RequestCadastro data) {
         System.out.println("Dados recebidos do front-end: " + data.toString());
         Cadastro newCadastro = new Cadastro(data);
         repository.save(newCadastro);
@@ -44,7 +45,7 @@ public class CadastroController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateCadastro(@PathVariable UUID id, @RequestBody @Valid RequestCadastro data) {
+    public ResponseEntity<Cadastro> updateCadastro(@PathVariable UUID id, @RequestBody @Valid RequestCadastro data) {
         Optional<Cadastro> optionalCadastro = repository.findById(id);
         if (optionalCadastro.isPresent()) {
             Cadastro cadastro = optionalCadastro.get();
@@ -66,7 +67,7 @@ public class CadastroController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteCadastro(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteCadastro(@PathVariable UUID id) {
         Optional<Cadastro> optionalCadastro = repository.findById(id);
         if (optionalCadastro.isPresent()) {
             repository.deleteById(id);
