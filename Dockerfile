@@ -15,10 +15,7 @@ FROM openjdk:17-jdk-slim
 # Expor a porta da aplicação
 EXPOSE 8080
 
-# Definir variáveis de ambiente do banco de dados
-ENV DATABASE_URL=jdbc:postgresql://localhost:5432/mindcare
-ENV DATABASE_USER=admin
-ENV DATABASE_PASSWORD=Lila349*
+
 
 # Copia o JAR da aplicação gerado na etapa de build
 COPY --from=build /app/target/mindcare-0.0.1-SNAPSHOT.jar app.jar
