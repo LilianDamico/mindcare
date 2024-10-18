@@ -1,30 +1,27 @@
-# Etapa de build
+# Etapa 1: Build da aplicação Java com Maven
 FROM maven:3.8.5-openjdk-17 AS build
 
-# Define o diretório de trabalho dentro do container
 WORKDIR /app
 
-# Copia o arquivo pom.xml e baixa as dependências
-COPY pom.xml ./
-RUN mvn dependency:go-offline -B
+# Copia todo o projeto
+COPY . .
 
-# Copia o restante do código fonte
-COPY src ./src
+# Executa o build da aplicação usando Maven
+RUN mvn clean install
 
-# Compila o projeto e gera o arquivo .jar
-RUN mvn clean package -DskipTests
-
-# Etapa de execução
+# Etapa 2: Criação do container final
 FROM openjdk:17-jdk-slim
 
-# Define o diretório de trabalho para o container final
-WORKDIR /app
-
-# Expõe a porta que a aplicação usará
+# Expor a porta da aplicação
 EXPOSE 8080
 
-# Copia o arquivo .jar gerado no estágio de build anterior
+# Definir variáveis de ambiente do banco de dados
+ENV DATABASE_URL=jdbc:postgresql://localhost:5432/mindcare
+ENV DATABASE_USER=admin
+ENV DATABASE_PASSWORD=Lila349*
+
+# Copia o JAR da aplicação gerado na etapa de build
 COPY --from=build /app/target/mindcare-0.0.1-SNAPSHOT.jar app.jar
 
-# Comando de inicialização da aplicação
+# Define o comando de entrada
 ENTRYPOINT ["java", "-jar", "app.jar"]
