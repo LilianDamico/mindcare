@@ -1,0 +1,29 @@
+name: Deploy Application
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
+    - name: Set up JDK
+      uses: actions/setup-java@v1
+      with:
+        java-version: '11'  # Altere a versão conforme necessário
+
+    - name: Run tests
+      run: ./mvnw test
+    
+    - name: Deploy application
+      env:
+        DB_URL: ${{ secrets.DB_URL }}
+        DB_USERNAME: ${{ secrets.DB_USERNAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      run: ./mvnw spring-boot:run
