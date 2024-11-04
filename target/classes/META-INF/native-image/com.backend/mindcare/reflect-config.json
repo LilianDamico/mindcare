@@ -2433,29 +2433,6 @@
     ]
   },
   {
-    "name": "org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration",
-    "queryAllPublicMethods": true,
-    "queryAllDeclaredMethods": true,
-    "queriedMethods": [
-      {
-        "name": "<init>",
-        "parameterTypes": [
-          "org.springframework.boot.autoconfigure.orm.jpa.JpaProperties"
-        ]
-      },
-      {
-        "name": "openEntityManagerInViewInterceptor",
-        "parameterTypes": [ ]
-      },
-      {
-        "name": "openEntityManagerInViewInterceptorConfigurer",
-        "parameterTypes": [
-          "org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor"
-        ]
-      }
-    ]
-  },
-  {
     "name": "org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$PersistenceManagedTypesConfiguration",
     "queryAllPublicMethods": true,
     "queryAllDeclaredMethods": true,
@@ -6918,7 +6895,7 @@
       {
         "name": "setDefaultProperties",
         "parameterTypes": [
-          "java.util.Properties"
+          "java.util.Map"
         ]
       },
       {
@@ -9256,11 +9233,6 @@
     ]
   },
   {
-    "name": "org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor",
-    "queryAllPublicMethods": true,
-    "queryAllDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor",
     "queryAllPublicMethods": true,
     "queryAllDeclaredMethods": true
@@ -9447,14 +9419,6 @@
     "name": "org.springframework.web.context.ConfigurableWebApplicationContext"
   },
   {
-    "name": "org.springframework.web.context.request.AsyncWebRequestInterceptor",
-    "queryAllPublicMethods": true
-  },
-  {
-    "name": "org.springframework.web.context.request.WebRequestInterceptor",
-    "queryAllPublicMethods": true
-  },
-  {
     "name": "org.springframework.web.context.ServletContextAware",
     "queryAllPublicMethods": true
   },
@@ -9616,8 +9580,7 @@
   },
   {
     "name": "org.springframework.web.servlet.config.annotation.WebMvcConfigurer",
-    "queryAllPublicMethods": true,
-    "queryAllDeclaredMethods": true
+    "queryAllPublicMethods": true
   },
   {
     "name": "org.springframework.web.servlet.DispatcherServlet",
