@@ -23,10 +23,23 @@ jobs:
           server-id: github
           settings-path: ${{ github.workspace }}/settings.xml
 
+      - name: Set up Maven settings
+        run: |
+          mkdir -p ~/.m2
+          echo "<settings>
+                  <servers>
+                    <server>
+                      <id>github</id>
+                      <username>LilianDamico</username>
+                      <password>${{ secrets.MY_GITHUB_TOKEN }}</password>
+                    </server>
+                  </servers>
+                 </settings>" > ~/.m2/settings.xml
+
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
       - name: Publish to GitHub Packages Apache Maven
         run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml -X
         env:
-          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+          G
