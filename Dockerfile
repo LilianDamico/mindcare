@@ -1,37 +1,29 @@
-# Usar uma imagem base do OpenJDK 17
-FROM openjdk:17-jdk-slim as builder
+# Baixando a imagem base
+FROM maven:3.8.6-eclipse-temurin-17-alpine AS builder
 
-# Definindo o diretório de trabalho
+# Setando diretório de trabalho no contêiner
 WORKDIR /app
 
-# Copiando o arquivo pom.xml para resolver as dependências
+# Copiando o arquivo pom.xml para o contêiner
 COPY pom.xml ./
+
+# Copiando o diretório .mvn para o contêiner
 COPY .mvn .mvn
+
+# Copiando o arquivo mvnw para o contêiner
 COPY mvnw ./
+
+# Dando permissão de execução ao script mvnw
+RUN chmod +x ./mvnw
 
 # Baixando as dependências do Maven sem compilar
 RUN ./mvnw dependency:go-offline -B
 
-# Copiando o diretório src para a imagem
+# Copiando o diretório src para o contêiner
 COPY src ./src
 
-# Compilando a aplicação, ignorando os testes para acelerar o processo
-RUN chmod +x mvnw && ./mvnw clean package -DskipTests
+# Executando a compilação do projeto
+RUN ./mvnw clean package -DskipTests
 
-# Usar uma nova imagem base do OpenJDK 17 para executar a aplicação
-FROM openjdk:17-jdk-slim
-
-# Definindo o diretório de trabalho na nova imagem
-WORKDIR /app
-
-# Copiando o jar da aplicação da fase de build
-COPY --from=builder /app/target/mindcare-0.0.1-SNAPSHOT.jar app.jar
-
-# Definindo variáveis de ambiente para opções do Java
-ENV JAVA_OPTS=""
-
-# Expondo a porta 8080 para acesso externo
-EXPOSE 8080
-
-# Comando de entrada para executar a aplicação
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+# Comando de entrada
+CMD ["java", "-jar", "target/mindcare-0.0.1-SNAPSHOT.jar"]
