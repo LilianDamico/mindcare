@@ -100,19 +100,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<distributionManagement>
-		<repository>
-			<id>github</id>
-			<url>https://maven.pkg.github.com/LilianDamico/mindcare</url>
-		</repository>
-	</distributionManagement>
-
-	<scm>
-		<connection>scm:git:https://github.com/LilianDamico/mindcare.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com:LilianDamico/mindcare.git</developerConnection>
-		<url>https://github.com/LilianDamico/mindcare</url>
-		<tag>0.0.1</tag>
-	</scm>
-
 </project>
