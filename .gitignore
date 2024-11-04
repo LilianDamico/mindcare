@@ -29,3 +29,4 @@ nbdist/
 
 ### VS Code ###
 .vscode/
+.m2/settings.xml

@@ -1,0 +1,11 @@
+target/
+*.log
+*.class
+*.jar
+*.war
+.idea
+*.iml
+.vscode
+*.md
+.DS_Store
+.m2/settings.xml

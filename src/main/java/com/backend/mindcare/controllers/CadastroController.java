@@ -4,12 +4,10 @@ import com.backend.mindcare.domain.cadastro.Cadastro;
 import com.backend.mindcare.domain.cadastro.CadastroRepository;
 import com.backend.mindcare.domain.cadastro.RequestCadastro;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @CrossOrigin(origins = "https://mindcare-frontend.vercel.app/")
@@ -17,23 +15,23 @@ import java.util.UUID;
 @RequestMapping("/mindcare")
 public class CadastroController {
 
-    @Autowired
-    private CadastroRepository repository;
+    private final CadastroRepository repository;
+
+
+    public CadastroController(CadastroRepository repository) {
+        this.repository = repository;
+    }
 
     @GetMapping
     public ResponseEntity<List<Cadastro>> getAllCadastro() {
-        var allCadastro = repository.findAll();
-        return ResponseEntity.ok(allCadastro);
+        return ResponseEntity.ok(repository.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Cadastro> getCadastroById(@PathVariable UUID id) {
-        Optional<Cadastro> cadastro = repository.findById(id);
-        if (cadastro.isPresent()) {
-            return ResponseEntity.ok(cadastro.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return repository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -46,34 +44,34 @@ public class CadastroController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Cadastro> updateCadastro(@PathVariable UUID id, @RequestBody @Valid RequestCadastro data) {
-        Optional<Cadastro> optionalCadastro = repository.findById(id);
-        if (optionalCadastro.isPresent()) {
-            Cadastro cadastro = optionalCadastro.get();
-            cadastro.setName(data.name());
-            cadastro.setCpf(data.cpf());
-            cadastro.setEmail(data.email());
-            cadastro.setRegis(data.regis());
-            cadastro.setAdress(data.adress());
-            cadastro.setFone(data.fone());
-            cadastro.setProf(data.prof());
-            cadastro.setEspecialidade(data.especialidade());
-            cadastro.setPassword(data.password());
-            cadastro.setComents(data.coments());
-            repository.save(cadastro);
-            return ResponseEntity.ok(cadastro);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return repository.findById(id)
+                .map(cadastro -> {
+                    cadastro.setName(data.name());
+                    cadastro.setCpf(data.cpf());
+                    cadastro.setEmail(data.email());
+                    cadastro.setRegis(data.regis());
+                    cadastro.setAdress(data.adress());
+                    cadastro.setFone(data.fone());
+                    cadastro.setProf(data.prof());
+                    cadastro.setEspecialidade(data.especialidade());
+                    cadastro.setPassword(data.password());
+                    cadastro.setComents(data.coments());
+                    repository.save(cadastro);
+                    return ResponseEntity.ok(cadastro);
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCadastro(@PathVariable UUID id) {
-        Optional<Cadastro> optionalCadastro = repository.findById(id);
-        if (optionalCadastro.isPresent()) {
-            repository.deleteById(id);
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return repository.findById(id)
+                .map(cadastro -> {
+                    repository.deleteById(id);
+                    return ResponseEntity.ok().<Void>build();
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+
+
 }
