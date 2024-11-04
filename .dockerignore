@@ -8,4 +8,5 @@ target/
 .vscode
 *.md
 .DS_Store
+settings.xml
 

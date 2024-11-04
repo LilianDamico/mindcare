@@ -1,0 +1,5 @@
+com\backend\mindcare\domain\cadastro\CadastroRepository.class
+com\backend\mindcare\domain\cadastro\Cadastro.class
+com\backend\mindcare\MindcareApplication.class
+com\backend\mindcare\controllers\CadastroController.class
+com\backend\mindcare\domain\cadastro\RequestCadastro.class
